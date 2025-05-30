@@ -79,8 +79,8 @@ Use --new <project name> to create a new template project. use -c or -cpp/-cxx/-
 	Optionally, specify the compiler using --compiler gcc/clang/clang++/g++/etc. By default cyda uses gcc/g++ :D
 Use --makefile to generate a makefile for the given cyda script
 ```
-When a `cydafile` is detected in the working directory, you can run --build and --run to do their respective jobs, according to the script in the cydafile.
-and --clean uses the cydafile once again to see where the .o files *would* be generated and then automatically delete them. Thats why there is no rule for --clean
+When a `cydafile` is detected in the working directory, you can run `--build` and `--run` to do their respective jobs, according to the script in the cydafile.
+and `--clean` uses the cydafile once again to see where the `*.o` files *would* be generated and then automatically delete them. Thats why there is no rule for `--clean`
 
 `--new <project name> -c/c++/cxx/cpp --compiler gcc/clang/g++/clang++` is the concept I borrowed from cargo, because once again, I was quite tired of setting up manually my folder structure. It automatically creates a new folder named `<project name>` with starter files for `C/C++` according to the flag and then optionally, you can specify the compiler. 
 The folder structure it generates is quite standard --
