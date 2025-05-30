@@ -1,5 +1,3 @@
-Note: This was just a personal script/utility I wrote for myself within a day, but I will refactor the code later for general readability since I am pushing this to open source.
-
 # Cyda
 Cyda is a *much* simpler build system for C/C++. Designed after feeling lazy to write Makefiles for each new project. 
 
@@ -34,21 +32,28 @@ Here is what my *cydafile* looks like in new projects now:
 ```
 compiler gcc
 flags -Wall
-// include lib => -Ilib
 include lib
-// Target main
 exec main
 
 // You'll notice that the header file for the c files are not given, cyda assumes that lib1.c has a coresponding lib1.h since its standard
 file lib/lib1.c
 file lib/lib2.c
 file src/main.c
-// This is like ~50% smaller than the makefile at the start of this readme!
 ```
-Aaand you're done! 
+This is like ~50% smaller than the makefile at the start of this readme, aaand you're done! 
 No rules needed for .o, or cleaning the .o files later
 
-Here is how it works -- 
+# Installation
+
+Installation is pretty simple. Just use pip (or pip3, depending on your system) and install using the following:
+`pip install cyda`
+This will automatically enable the `cyda` command within your terminal and voila! You can use this build system anywhere!
+
+# Commands & Syntax
+
+Note: I didn't want people to be overly dependant on documentation on a website that they have to refer to, so I have the syntax and new update changes within the cyda app itself, just use `cyda --syntax`
+
+Here are some of the commands:
 ```
 %cyda --help
 Welcome to using Cyda! A simpler CMake alternative.
