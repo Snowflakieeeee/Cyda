@@ -46,7 +46,9 @@ No rules needed for .o, or cleaning the .o files later
 # Installation
 
 Installation is pretty simple. Just use pip (or pip3, depending on your system) and install using the following:
+
 `pip install cyda`
+
 This will automatically enable the `cyda` command within your terminal and voila! You can use this build system anywhere!
 
 # Commands & Syntax
