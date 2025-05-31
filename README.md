@@ -32,47 +32,20 @@ Here is what my *cydafile* looks like in new projects now:
 ```
 compiler gcc
 flags -Wall
+// include lib => -Ilib
 include lib
+// Target main
 exec main
 
 // You'll notice that the header file for the c files are not given, cyda assumes that lib1.c has a coresponding lib1.h since its standard
 file lib/lib1.c
 file lib/lib2.c
 file src/main.c
+// This is like ~50% smaller than the makefile at the start of this readme!
 ```
-This is like ~50% smaller than the makefile at the start of this readme, aaand you're done! 
+Aaand you're done! 
 No rules needed for .o, or cleaning the .o files later
 
-# Installation
-
-Installation is pretty simple. Just use pip (or pip3, depending on your system) and install using the following:
-
-`pip install cyda`
-
-This will automatically enable the `cyda` command within your terminal and voila! You can use this build system anywhere!
-
-# Commands & Syntax
-
-Note: I didn't want people to be overly dependant on documentation on a website that they have to refer to, so I have the syntax and new update changes within the cyda app itself, just use `cyda --syntax`
-
-Here are some of the commands:
-```
-%cyda --help
-Welcome to using Cyda! A simpler CMake alternative.
-Use --help  to get this message
-Use --version  to, you know, get the installed version
-Use --syntax  to get up to speed with the syntax of Cyda. Do visit the Github page for more information
-Use --build  to build but not run the executable
-Use --run  to build the files, clear the screen, and run the executable immediately
-Use --clean  to clean the .o files generated
-Use --new <project name>   -c/cpp   --compiler -gcc/g++/clang/clang++  to create a new template project. use -c or -cpp/-cxx/-c++ to specify project language type.
-	   Optionally, specify the compiler using --compiler gcc/clang/clang++/g++/etc. By default cyda uses gcc/g++ :D
-
-Use --makefile  to generate a makefile for the given cyda script
-(Note: Some features like wildcards and setting output directories is not available for makefiles
-    It generates files in the current directory and searches paths explicitly
-    If you need those features, use --build/--run directly)
-```
 `--new <project name> -c/c++/cxx/cpp --compiler gcc/clang/g++/clang++` is the concept I borrowed from cargo, because once again, I was quite tired of setting up manually my folder structure. It automatically creates a new folder named `<project name>` with starter files for `C/C++` according to the flag and then optionally, you can specify the compiler. 
 The folder structure it generates is quite standard --
 ```
@@ -89,35 +62,92 @@ PROJECT_NAME
 And the cydafile generated matches the folder structure already. 
 
 Cyda Syntax: `use --syntax to learn as well ;)`
-```
+
 1. compiler <compiler name>
-    - Select the desired compiler. Permitted values are gcc, g++, clang, clang++. You can choose a different compiler and override later, if you'd like.
+   Select the desired compiler. Permitted values are gcc, g++, clang, clang++. You can choose a different compiler and override later, if you'd like.
+   It'll just prompt you when you run the file, if you decide to choose a different compiler
 
 2. flags <compiler flags>
-    - Set the desired flags for the compiler. This is compiler dependant
+   Set the desired flags for the compiler. This is compiler dependant
+   Here lies stuff like -Wall, -O3, etc
 
 3. include <paths/dirs to include in compilation>
-    - This corresponds to -I flag in gcc, ignore if your compiler doesnt support it
+    - This corresponds to -I flag in gcc/clang, ignore if your compiler doesnt support it
 
-4. file <filename, along with path>
-    - This is the complete filename from the present working directory. e.g if its in the pwd, then main.c should suffice, else specify using src/main.c
+4. library <library to include>
+    - This corresponds to -l flag in gcc/clang, but if it isn't a system library, links with libraries in the 'explicit' path
+  
+    - For example, if using math.h, you would use library math to add it to the list of flags for your compiler to link against (-lm, in this case)
+    - But, if have your own library called mystuff.a in, say, staticlibs/, you would use library staticlibs/mystuff
+    - Do note that the two above commands, `include` and `library`, can be both set using `-I` and `-l` in the `flags` command as well, and you wouldn't need to add them to library/include and vice versa.
 
-5. set output obj <directory>
-    - Determines where the generated object files will reside. e.g setting it to object_files will make it generate in ./object_files/*.o
+Here are the mappings for the library name to their `-l` equivalent:
+{
+	"math" 			: "m",
+	"pthread" 		: "pthread",
+	"dlopen" 		: "dl",
+	"dlsym"		    : "dl",
+	"ncurses" 		: "ncurses",
+	"readline"	    : "readline",
+	"zlib" 			: "z",
+	"ssl" 			: "ssl",
+	"crypto"		: "crypto",
+	"sqlite3" 		: "sqlite3",
+	"curl"			: "curl",
+	"X11" 			: "X11",
+	"Xlib" 			: "X11",
+	"Xorg" 			: "X11",
+	"png" 			: "png",
+	"jpeg"			: "jpeg",
+	"gl" 			: "GL",
+	"opengl"	    : "GL",
+	"sdl"			: "SDL2",
+	"sdl2" 			: "sdl2",
+	"sndfile" 		: "sndfile",
+	"uuid" 			: "uuid",
+	"pcap" 			: "pcap",
+	"pcapture" 		: "pcap",
+	"gtk" 			: "gtk-3",
+	"audio" 		: "ao",
+	"ao" 			: "ao"
+}
 
-5. set output exe <directory>
-    - Determines where the generated executable will reside. e.g setting it to dist will make it generate in ./dist/*
+If you think that is inconvenient, you can just add your `-l` command in the `flags` 
 
-6. exec <name>
-    - Just sets the name of the final executable, can be anything
-```
+5. file <filename, along with path>
+    - This is the complete filename from the present working directory.
+    - For example, if its in the present working directory, then main.c should suffice, else specify using src/main.c
+
+6. set output obj <directory>
+    - Determines where the generated object files will reside. 
+    - For example, setting it to object_files will make it generate in ./object_files/*.o
+    - There is no way to tweak the output directory/area for *each* file, I think thats unneccessary, atleast for me
+    - By default, it generates object files in `./` 
+
+7. set output exe <directory>
+    - Determines where the generated executable will reside. 
+    - For example setting it to dist will make it generate in ./dist/*
+    - By default, it generates the executable in `./`
+
+8. exec <name>
+    - Set your program to be generate an executable. 
+    - <name> is the name of the final executable.
+    - That's about it
+
+9.  slib <name>
+    - Set your program to be generate a static library (.a). 
+    - <name> is the name of the final library (<name>.a)
+
+10.   dlib <name>
+    - Set your program to be generate an dynamic library (.so). 
+    - <name> is the name of the final library (<name>.so)
+
+### There must be only one of 'exec', 'slib', or 'dlib'
+
+And you're done! You know the basics of Cyda now! Have fun and I hope you find it easier than other build tools :p
+
 
 ## NOTE -
-Currently some features are missing which I will add in the future - 
-  * ~~Ability to control where the output object files are located, although I wont add granular control for per file~~         - ADDED
-  * ~~Ability to control where the output executable file is generated~~							- ADDED
-  * Ability to add wildcard like `*.c` to dynamically add files to the compilation without needing to specify each one
-  * More *motivating* quotes in the future (you'll know when you use --run/--build)
-  
-May or may not add support for assembly (linux only)
+To add or suggest ideas/bugs/etc. you can contact the developer at `toodles.exe` on discord
 
+May or may not add support for assembly (linux only)
