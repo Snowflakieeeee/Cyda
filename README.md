@@ -63,18 +63,18 @@ And the cydafile generated matches the folder structure already.
 
 Cyda Syntax: `use --syntax to learn as well ;)`
 
-1. compiler <compiler name>
+1. `compiler <compiler name>`
    Select the desired compiler. Permitted values are gcc, g++, clang, clang++. You can choose a different compiler and override later, if you'd like.
    It'll just prompt you when you run the file, if you decide to choose a different compiler
 
-2. flags <compiler flags>
+2. `flags <compiler flags>`
    Set the desired flags for the compiler. This is compiler dependant
    Here lies stuff like -Wall, -O3, etc
 
-3. include <paths/dirs to include in compilation>
+3. `include <paths/dirs to include in compilation>`
     - This corresponds to -I flag in gcc/clang, ignore if your compiler doesnt support it
 
-4. library <library to include>
+4. `library <library to include>`
     - This corresponds to -l flag in gcc/clang, but if it isn't a system library, links with libraries in the 'explicit' path
   
     - For example, if using math.h, you would use library math to add it to the list of flags for your compiler to link against (-lm, in this case)
@@ -114,31 +114,31 @@ Here are the mappings for the library name to their `-l` equivalent:
 
 If you think that is inconvenient, you can just add your `-l` command in the `flags` 
 
-5. file <filename, along with path>
+5. `file <filename, along with path>`
     - This is the complete filename from the present working directory.
     - For example, if its in the present working directory, then main.c should suffice, else specify using src/main.c
 
-6. set output obj <directory>
+6. `set output obj <directory>`
     - Determines where the generated object files will reside. 
     - For example, setting it to object_files will make it generate in ./object_files/*.o
     - There is no way to tweak the output directory/area for *each* file, I think thats unneccessary, atleast for me
     - By default, it generates object files in `./` 
 
-7. set output exe <directory>
+7. `set output exe <directory>`
     - Determines where the generated executable will reside. 
     - For example setting it to dist will make it generate in ./dist/*
     - By default, it generates the executable in `./`
 
-8. exec <name>
+8. `exec <name>`
     - Set your program to be generate an executable. 
     - <name> is the name of the final executable.
     - That's about it
 
-9.  slib <name>
+9.  `slib <name>`
     - Set your program to be generate a static library (.a). 
     - <name> is the name of the final library (<name>.a)
 
-10.   dlib <name>
+10. `dlib <name>`
     - Set your program to be generate an dynamic library (.so). 
     - <name> is the name of the final library (<name>.so)
 
