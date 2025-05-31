@@ -82,6 +82,7 @@ Cyda Syntax: `use --syntax to learn as well ;)`
     - Do note that the two above commands, `include` and `library`, can be both set using `-I` and `-l` in the `flags` command as well, and you wouldn't need to add them to library/include and vice versa.
 
 Here are the mappings for the library name to their `-l` equivalent:
+```
 {
 	"math" 			: "m",
 	"pthread" 		: "pthread",
@@ -111,7 +112,7 @@ Here are the mappings for the library name to their `-l` equivalent:
 	"audio" 		: "ao",
 	"ao" 			: "ao"
 }
-
+```
 If you think that is inconvenient, you can just add your `-l` command in the `flags` 
 
 5. `file <filename, along with path>`
