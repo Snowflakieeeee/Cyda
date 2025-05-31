@@ -64,17 +64,21 @@ And the cydafile generated matches the folder structure already.
 Cyda Syntax: `use --syntax to learn as well ;)`
 
 1. `compiler <compiler name>`
-   Select the desired compiler. Permitted values are gcc, g++, clang, clang++. You can choose a different compiler and override later, if you'd like.
-   It'll just prompt you when you run the file, if you decide to choose a different compiler
+
+   - Select the desired compiler. Permitted values are gcc, g++, clang, clang++. You can choose a different compiler and override later, if you'd like.
+   - It'll just prompt you when you run the file, if you decide to choose a different compiler
 
 2. `flags <compiler flags>`
-   Set the desired flags for the compiler. This is compiler dependant
-   Here lies stuff like -Wall, -O3, etc
+
+   - Set the desired flags for the compiler. This is compiler dependant
+   - Here lies stuff like -Wall, -O3, etc
 
 3. `include <paths/dirs to include in compilation>`
+    
     - This corresponds to -I flag in gcc/clang, ignore if your compiler doesnt support it
 
 4. `library <library to include>`
+    
     - This corresponds to -l flag in gcc/clang, but if it isn't a system library, links with libraries in the 'explicit' path
   
     - For example, if using math.h, you would use library math to add it to the list of flags for your compiler to link against (-lm, in this case)
